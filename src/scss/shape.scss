@@ -1,0 +1,66 @@
+// สร้าง mixin สำหรับสามเหลี่ยม
+@mixin triangle($width, $height, $color) {
+  width: 0;
+  height: 0;
+  border-left: $width / 2 solid transparent;
+  border-right: $width / 2 solid transparent;
+  border-bottom: $height solid $color;
+}
+// สร้าง mixin สำหรับวงกลม
+@mixin circle($diameter, $color) {
+  width: $diameter;
+  height: $diameter;
+  background-color: $color;
+  border-radius: 50%;
+}
+// สร้าง mixin สำหรับสร้างสี่เหลี่ยม
+@mixin square($size, $color) {
+  width: $size;
+  height: $size;
+  background-color: $color;
+}
+
+// สร้าง mixin สำหรับสร้างสี่เหลี่ยมผืนผ้า (rectangle)
+@mixin rectangle($width, $height, $color) {
+  width: $width;
+  height: $height;
+  background-color: $color;
+}
+
+// สร้าง mixin สำหรับสร้างวงรี (ellipse)
+@mixin ellipse($width, $height, $color) {
+  width: $width;
+  height: $height;
+  background-color: $color;
+  border-radius: 50%;
+}
+
+// สร้าง mixin สำหรับสร้างทรงพีระมิด (trapezoid)
+@mixin trapezoid($topWidth, $bottomWidth, $height, $color) {
+  width: 0;
+  height: 0;
+  border-left: $bottomWidth / 2 solid transparent;
+  border-right: $bottomWidth / 2 solid transparent;
+  border-bottom: $height solid $color;
+  position: relative;
+  transform: translateX(-50%);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -$topWidth / 2;
+    width: $topWidth;
+    height: 0;
+    border-left: $topWidth / 2 solid transparent;
+    border-right: $topWidth / 2 solid transparent;
+    border-bottom: $height solid $color;
+  }
+}
+
+// สร้าง mixin สำหรับสร้างทรงสี่เหลี่ยมขนมมุ้ง (parallelogram)
+@mixin parallelogram($width, $height, $skew, $color) {
+  width: $width;
+  height: $height;
+  background-color: $color;
+  transform: skewX($skew);
+}

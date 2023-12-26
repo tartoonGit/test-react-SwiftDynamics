@@ -1,0 +1,11 @@
+@use "/src/scss/base";
+
+.header {
+  position: absolute;
+  right: 0;
+  top: 0;
+  @extend %p-4;
+}
+.screen {
+  @extend %px-4
+}

@@ -1,0 +1,59 @@
+//padding
+%p-0 {
+  padding: 0px;
+}
+%px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+%py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+%p-1 {
+  padding: 0.25rem;
+}
+%p-2 {
+  padding: 0.5rem;
+}
+%p-3 {
+  padding: 0.75rem;
+}
+%px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+%p-4 {
+  padding: 1rem;
+}
+//space
+%space-4 {
+  > div,a,button {
+    margin-right: 1rem;
+     margin-top: 1rem;
+  }
+}
+//flex
+%flex-row {
+  display: flex;
+  flex-direction: row;
+}
+%flex-col {
+  display: flex;
+  flex-direction: column;
+}
+%flex-center {
+  @extend %flex-row;
+  justify-content: center;
+  align-items: center;
+}
+%flex-around {
+  @extend %flex-row;
+  justify-content: space-around;
+  align-items: center;
+}
+//grid
+%grid-col-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}

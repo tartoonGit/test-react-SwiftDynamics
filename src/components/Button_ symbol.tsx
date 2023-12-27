@@ -1,25 +1,24 @@
 import "./Button_ symbol.scss";
 import { useTranslation } from "react-i18next";
-
-type shape =
-  | "triangle"
-  | "triangle-right"
-  | "triangle-left"
-  | "circle"
-  | "square"
-  | "rectangle"
-  | "ellipse"
-  | "trapezoid"
-  | "parallelogram";
-
+import { shape } from "./../@types/types";
+ 
 const Button_symbol = (props: {
   shape: shape;
   label?: string;
   className?: string;
+  onClick?: () => void;
 }) => {
   const { t } = useTranslation();
+  const handleClick = () => {
+    if (props.onClick) {
+      props.onClick(); // เรียกใช้ onClick ที่ถูกส่งเข้ามา
+    }
+  };
   return (
-    <button className={`button_symbol ${props.className}`}>
+    <button
+      className={`button_symbol ${props.className}`}
+      onClick={handleClick}
+    >
       {props.shape === "triangle" ? (
         //if(triangle)
         <div className="button-around">

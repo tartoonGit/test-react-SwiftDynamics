@@ -23,7 +23,7 @@ function App() {
       <div className="body-card">
         <div className="multi-card">
           {content.map((item, index) => (
-            <Link to={item.link}>
+            <Link to={item.link} key={index}>
               <Select_card
                 key={index}
                 title={item.title}

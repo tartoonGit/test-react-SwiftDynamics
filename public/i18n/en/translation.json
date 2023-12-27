@@ -10,5 +10,8 @@
   "move": {
     "shape": "Move Shape",
     "position": "Move Position"
+  },
+  "button": {
+    "back": "Back"
   }
 }

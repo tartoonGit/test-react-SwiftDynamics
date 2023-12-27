@@ -1,13 +1,20 @@
 import React, { useState } from "react";
-import { Button, Table } from "antd";
+import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { useSelector } from "react-redux";
+import { formSelector } from "./../store/slices/formSlice";
 
 interface DataType {
-  key: React.Key;
+  key: React.Key | number;
   name: string;
   gender: string;
+  code: string;
   tel: string;
   nationality: string;
+  idcard: string;
+  salary: string;
+  date: Date;
+  passport?: string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -78,35 +85,13 @@ const columns: ColumnsType<DataType> = [
   {
     title: "จัดการ",
     dataIndex: "system",
-    render: () => (
-        <a>Delete</a>
-    ),
+    render: () => <a>Delete</a>,
   },
 ];
 
-const data: DataType[] = [];
-// for (let i = 0; i < 46; i++) {
-//   data.push({
-//     key: i,
-//     name: `การ์ตูน ${i}`,
-//     gender: i%2 == 1 ? "ชาย":"หญิง",
-//     tel: `+66 4864886842`,
-//     nationality: "ไทย"
-//   });
-// }
-
 const Table_data = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const start = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setSelectedRowKeys([]);
-      setLoading(false);
-    }, 1000);
-  };
-
+  const formData = useSelector(formSelector);
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
@@ -125,7 +110,11 @@ const Table_data = () => {
           {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
         </span>
       </div>
-      <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={formData.data}
+      />
     </div>
   );
 };

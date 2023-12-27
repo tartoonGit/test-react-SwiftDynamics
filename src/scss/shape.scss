@@ -2,8 +2,8 @@
 @mixin triangle($width, $height, $color) {
   width: 0;
   height: 0;
-  border-left: $width / 2 solid transparent;
-  border-right: $width / 2 solid transparent;
+  border-left: calc(#{$width} / 2) solid transparent;
+  border-right: calc(#{$width} / 2) solid transparent;
   border-bottom: $height solid $color;
 }
 // สร้าง mixin สำหรับวงกลม
@@ -39,8 +39,8 @@
 @mixin trapezoid($topWidth, $bottomWidth, $height, $color) {
   width: 0;
   height: 0;
-  border-left: $bottomWidth / 2 solid transparent;
-  border-right: $bottomWidth / 2 solid transparent;
+  border-left: calc(#{$bottomWidth} / 2) solid transparent;
+  border-right: calc(#{$bottomWidth} / 2) solid transparent;
   border-bottom: $height solid $color;
   position: relative;
   transform: translateX(-50%);
@@ -48,11 +48,11 @@
     content: '';
     position: absolute;
     top: 0;
-    left: -$topWidth / 2;
+    left: calc(-#{$topWidth} / 2);
     width: $topWidth;
     height: 0;
-    border-left: $topWidth / 2 solid transparent;
-    border-right: $topWidth / 2 solid transparent;
+    border-left: calc(#{$topWidth} / 2) solid transparent;
+    border-right: calc(#{$topWidth} / 2) solid transparent;
     border-bottom: $height solid $color;
   }
 }

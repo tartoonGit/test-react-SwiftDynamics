@@ -1,14 +1,18 @@
 .form-border {
-    border-radius: 8px;
-    border: 1px solid grey;
-    max-width: 1000px;
-    width: 100%;
-    padding: 10px;
-    > div  {
-        display: flex;
-        align-items: center;
-        > div > div > div > label{
-            margin-top: 5px;
-        } 
+  border-radius: 8px;
+  border: 1px solid grey;
+  max-width: 1000px;
+  width: 100%;
+  padding: 10px;
+  > div {
+    display: flex;
+    align-items: center;
+    > div > div {
+      display: flex;
+      align-items: center;
     }
+  }
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-form-item {
+  margin-bottom: 0;
 }

@@ -1,29 +1,36 @@
 import "./Form_data.scss";
-import { useState } from "react";
-import type { DatePickerProps, RadioChangeEvent } from "antd";
 import { Select, Input, DatePicker, Radio, Form, Space, Button } from "antd";
+import { useSelector } from "react-redux";
+import { runes } from "runes2";
+import { formSelector } from "./../store/slices/formSlice";
 
 const Form_data = () => {
-  const onDate: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
-  };
-  const [value, setValue] = useState(1);
-
-  const onRadio = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
-    setValue(e.target.value);
-  };
+  const formData = useSelector(formSelector);
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    formData.data.push({
+      key: formData.data.length,
+      name: `${values.prefix} ${values.fname} ${values.lname}`,
+      gender: values.gender,
+      code: values.code,
+      tel: values.tel,
+      nationality: values.nationality,
+      idcard: `${values.idcard1}${values.idcard2}${values.idcard3}${values.idcard4}${values.idcard}`,
+      salary: values.salary,
+      date: values.date.$d,
+      passport: values.passport,
+    });
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+  //reset form
   const [form] = Form.useForm();
   const onReset = () => {
     form.resetFields();
   };
+
   return (
     <Form
       className="form-border"
@@ -41,23 +48,23 @@ const Form_data = () => {
           <Select
             style={{ width: 100, margin: "10px" }}
             options={[
-              { value: "lucy", label: "นาย" },
-              { value: "lucy", label: "นาง" },
-              { value: "lucy", label: "นางสาว" },
+              { value: "นาย", label: "นาย" },
+              { value: "นาง", label: "นาง" },
+              { value: "นางสาว", label: "นางสาว" },
             ]}
             placeholder="คำนำหน้า"
           />
         </Form.Item>
         <Form.Item
           label="ชื่อจริง"
-          name="name"
+          name="fname"
           rules={[{ required: true, message: "กรุณาใส่ชื่อจริง !" }]}
         >
           <Input style={{ width: 250, margin: "10px" }} />
         </Form.Item>
         <Form.Item
           label="นามสกุล"
-          name="lastname"
+          name="lname"
           rules={[{ required: true, message: "กรุณาใส่นามสกุล !" }]}
         >
           <Input style={{ width: 250, margin: "10px" }} />
@@ -69,7 +76,7 @@ const Form_data = () => {
           name="date"
           rules={[{ required: true, message: "กรุณาใส่วันเกิด !" }]}
         >
-          <DatePicker style={{ margin: "10px" }} onChange={onDate} />
+          <DatePicker style={{ margin: "10px" }} />
         </Form.Item>
         <Form.Item
           label="สัญชาติ"
@@ -79,9 +86,9 @@ const Form_data = () => {
           <Select
             style={{ width: 300, margin: "10px" }}
             options={[
-              { value: "lucy", label: "ไทย" },
-              { value: "lucy", label: "จีน" },
-              { value: "lucy", label: "อังกฤษ" },
+              { value: "ไทย", label: "ไทย" },
+              { value: "จีน", label: "จีน" },
+              { value: "อังกฤษ", label: "อังกฤษ" },
             ]}
             placeholder="-- กรุณาเลือก --"
           />
@@ -90,14 +97,103 @@ const Form_data = () => {
       <div>
         <Form.Item
           label="เลขบัตรประชาชน"
-          name="idcard"
-          rules={[{ required: true, message: "กรุณาใส่เลขบัตรประชาชน !" }]}
+          name="idcard1"
+          rules={[
+            {
+              required: true,
+              len: 1,
+              message: "กรุณาใส่ให้ครบ 1 ตัว !",
+            },
+          ]}
         >
-          <Input style={{ width: 50, margin: "10px" }} />-
-          <Input style={{ width: 150, margin: "10px" }} />-
-          <Input style={{ width: 150, margin: "10px" }} />-
-          <Input style={{ width: 150, margin: "10px" }} />-
-          <Input style={{ width: 50, margin: "10px" }} />
+          <Input
+            count={{
+              max: 1,
+              exceedFormatter: (txt, { max }) =>
+                runes(txt).slice(0, max).join(""),
+            }}
+            style={{ width: 80, margin: "10px" }}
+          />
+        </Form.Item>
+        -
+        <Form.Item
+          name="idcard2"
+          rules={[
+            {
+              required: true,
+              len: 4,
+              message: "กรุณาใส่ให้ครบ 4 ตัว !",
+            },
+          ]}
+        >
+          <Input
+            count={{
+              max: 4,
+              exceedFormatter: (txt, { max }) =>
+                runes(txt).slice(0, max).join(""),
+            }}
+            style={{ width: 100, margin: "10px" }}
+          />
+        </Form.Item>
+        -
+        <Form.Item
+          name="idcard3"
+          rules={[
+            {
+              required: true,
+              len: 5,
+              message: "กรุณาใส่ให้ครบ 5 ตัว !",
+            },
+          ]}
+        >
+          <Input
+            count={{
+              max: 5,
+              exceedFormatter: (txt, { max }) =>
+                runes(txt).slice(0, max).join(""),
+            }}
+            style={{ width: 110, margin: "10px" }}
+          />
+        </Form.Item>
+        -
+        <Form.Item
+          name="idcard4"
+          rules={[
+            {
+              required: true,
+              len: 2,
+              message: "กรุณาใส่ให้ครบ 2 ตัว !",
+            },
+          ]}
+        >
+          <Input
+            count={{
+              max: 2,
+              exceedFormatter: (txt, { max }) =>
+                runes(txt).slice(0, max).join(""),
+            }}
+            style={{ width: 80, margin: "10px" }}
+          />
+        </Form.Item>
+        -
+        <Form.Item
+          name="idcard5"
+          rules={[
+            {
+              required: true,
+              len: 1,
+              message: "กรุณาใส่เลขบัตรประชาชนในช่องนี้ให้ครบ 1 ตัว !",
+            },
+          ]}
+        >
+          <Input
+            count={{
+              max: 1,
+              exceedFormatter: (txt, { max }) =>
+                runes(txt).slice(0, max).join(""),
+            }}
+            style={{ width: 80, margin: "10px" }}
+          />
         </Form.Item>
       </div>
       <div>
@@ -106,31 +202,41 @@ const Form_data = () => {
           name="gender"
           rules={[{ required: true, message: "กรุณาเลือกเพศ !" }]}
         >
-          <Radio.Group
-            onChange={onRadio}
-            value={value}
-            style={{ margin: "10px" }}
-          >
-            <Radio value={"Man"}>ชาย</Radio>
-            <Radio value={"Woman"}>หญิง</Radio>
-            <Radio value={"None"}>ไม่ระบุ</Radio>
+          <Radio.Group style={{ margin: "10px" }}>
+            <Radio value={"ชาย"}>ชาย</Radio>
+            <Radio value={"หญิง"}>หญิง</Radio>
+            <Radio value={"ไม่ระบุ"}>ไม่ระบุ</Radio>
           </Radio.Group>
         </Form.Item>
       </div>
       <div>
         <Form.Item
           label="หมายเลขโทรศัพท์มือถือ"
+          name="code"
+          rules={[
+            { required: true, message: "กรุณาใส่รหัสหมายเลขโทรศัพท์มือถือ !" },
+          ]}
+        >
+          <Select
+            style={{ width: 80, margin: "10px" }}
+            options={[{ value: "+66", label: "+66" }]}
+          />
+        </Form.Item>
+        -
+        <Form.Item
           name="tel"
           rules={[
             { required: true, message: "กรุณาใส่หมายเลขโทรศัพท์มือถือ !" },
           ]}
         >
-          <Select
-            style={{ width: 80, margin: "10px" }}
-            options={[{ value: "lucy", label: "+66" }]}
+          <Input
+            style={{ width: 250, margin: "10px" }}
+            count={{
+              max: 10,
+              exceedFormatter: (txt, { max }) =>
+                runes(txt).slice(0, max).join(""),
+            }}
           />
-          -
-          <Input style={{ width: 250, margin: "10px" }} />
         </Form.Item>
       </div>
       <div>

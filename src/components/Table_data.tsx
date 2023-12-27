@@ -1,120 +1,81 @@
-import React, { useState } from "react";
+import { useEffect } from "react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useSelector } from "react-redux";
-import { formSelector } from "./../store/slices/formSlice";
-
-interface DataType {
-  key: React.Key | number;
-  name: string;
-  gender: string;
-  code: string;
-  tel: string;
-  nationality: string;
-  idcard: string;
-  salary: string;
-  date: Date;
-  passport?: string;
-}
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: "ชื่อ",
-    dataIndex: "name",
-    sorter: (a, b) => {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
-
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    },
-  },
-  {
-    title: "เพศ",
-    dataIndex: "gender",
-    sorter: (a, b) => {
-      const nameA = a.gender.toLowerCase();
-      const nameB = b.gender.toLowerCase();
-
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    },
-  },
-  {
-    title: "หมายเลขโทรศัพท์มือถือ",
-    dataIndex: "tel",
-    sorter: (a, b) => {
-      const nameA = a.tel.toLowerCase();
-      const nameB = b.tel.toLowerCase();
-
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    },
-  },
-  {
-    title: "สัญชาติ",
-    dataIndex: "nationality",
-    sorter: (a, b) => {
-      const nameA = a.nationality.toLowerCase();
-      const nameB = b.nationality.toLowerCase();
-
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    },
-  },
-  {
-    title: "จัดการ",
-    dataIndex: "system",
-    render: () => <a>Delete</a>,
-  },
-];
+import {
+  formSelector,
+  removeForm,
+  DataType,
+  localCheck,
+} from "./../store/slices/formSlice";
+import { useAppDispatch } from "./../store/store";
+import { useTranslation } from "react-i18next";
 
 const Table_data = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const formData = useSelector(formSelector);
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
+  const storedData: DataType[] = JSON.parse(
+    localStorage.getItem("dataTable") || "[]"
+  );
+  useEffect(() => {
+    dispatch(localCheck(storedData));
+  }, []);
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
-  const hasSelected = selectedRowKeys.length > 0;
+  const generateSorter =
+    (dataIndex: "name" | "gender" | "tel" | "nationality") =>
+    (a: DataType, b: DataType) => {
+      const valueA = a[dataIndex].toLowerCase();
+      const valueB = b[dataIndex].toLowerCase();
+
+      if (valueA < valueB) {
+        return -1;
+      }
+      if (valueA > valueB) {
+        return 1;
+      }
+      return 0;
+    };
+
+  const columns: ColumnsType<DataType> = [
+    {
+      title: t("form.name"),
+      dataIndex: "name",
+      sorter: generateSorter("name"),
+    },
+    {
+      title: t("form.gender"),
+      dataIndex: "gender",
+      sorter: generateSorter("gender"),
+    },
+    {
+      title: t("form.tel"),
+      dataIndex: "tel",
+      sorter: generateSorter("tel"),
+    },
+    {
+      title: t("form.nationality"),
+      dataIndex: "nationality",
+      sorter: generateSorter("nationality"),
+    },
+    {
+      title: t("form.system"),
+      dataIndex: "system",
+      render: (_: any, record: DataType) => (
+        <a
+          onClick={() => {
+            dispatch(removeForm(record.key));
+          }}
+        >
+          {t("form.delete")}
+        </a>
+      ),
+    },
+  ];
 
   return (
-    <div>
-      <div style={{ marginBottom: 16 }}>
-        <span style={{ marginLeft: 8 }}>
-          {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
-        </span>
-      </div>
-      <Table
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={formData.data}
-      />
+    <div style={{ marginTop: "30px" }}>
+      <Table columns={columns} dataSource={formData.data} />
     </div>
   );
 };

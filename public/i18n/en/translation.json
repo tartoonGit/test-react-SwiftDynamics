@@ -1,0 +1,17 @@
+{
+  "title": {
+    "title1": "Test 1",
+    "title2": "Test 2"
+  },
+  "content": {
+    "content1": "Layout & Style",
+    "content2": "Form & Table"
+  },
+  "move": {
+    "shape": "Move Shape",
+    "position": "Move Position"
+  },
+  "button": {
+    "back": "Back"
+  }
+}

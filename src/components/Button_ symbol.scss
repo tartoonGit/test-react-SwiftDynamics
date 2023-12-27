@@ -1,0 +1,71 @@
+@use "/src/scss/color.scss";
+@use "/src/scss/base.scss";
+@use "/src/scss/shape.scss";
+
+.button_symbol {
+  min-height: 150px;
+  min-width: 250px;
+  height: 100%;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+
+  > .full-width {
+    width: 500px;
+  }
+
+  > .button-center {
+    @extend %flex-center;
+  }
+
+  > .button-around {
+    @extend %flex-around;
+  }
+
+  .bar-label {
+    position: absolute;
+    background-color: color.$base-green;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    border-radius: 8px;
+    text-wrap: nowrap;
+    @extend %p-1;
+  }
+
+  .triangle-up {
+    @include shape.triangle(100px, 100px, grey);
+  }
+  .triangle-down {
+    transform: rotate(180deg);
+    @include shape.triangle(100px, 100px, grey);
+  }
+  .triangle-right {
+    transform: rotate(90deg);
+    @include shape.triangle(100px, 100px, grey);
+  }
+  .triangle-left {
+    transform: rotate(-90deg);
+    @include shape.triangle(100px, 100px, grey);
+  }
+  .circle {
+    @include shape.circle(100px, grey);
+  }
+   .square {
+    @include shape.square(100px, grey);
+  }
+   .rectangle {
+    @include shape.rectangle(200px, 100px, grey);
+  }
+  .ellipse {
+    @include shape.ellipse(220px, 100px, grey);
+  }
+  .trapezoid {
+    @include shape.trapezoid(100px, 100px, 100px, grey);
+  }
+  .parallelogram {
+    @include shape.parallelogram(180px, 80px, 30deg, grey);
+  }
+}

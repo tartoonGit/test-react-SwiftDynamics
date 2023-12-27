@@ -1,0 +1,6 @@
+@use "/src/scss/base.scss";
+
+.form {
+    @extend %flex-row;
+    justify-content: center;
+}

@@ -2,24 +2,32 @@ import "./Form_data.scss";
 import { Select, Input, DatePicker, Radio, Form, Space, Button } from "antd";
 import { useSelector } from "react-redux";
 import { runes } from "runes2";
-import { formSelector } from "./../store/slices/formSlice";
+import { addForm, formSelector } from "./../store/slices/formSlice";
+import { useAppDispatch } from "./../store/store";
+import { useTranslation } from "react-i18next";
 
 const Form_data = () => {
+  const { t } = useTranslation();
   const formData = useSelector(formSelector);
+  const dispatch = useAppDispatch();
   const onFinish = (values: any) => {
-    console.log("Success:", values);
-    formData.data.push({
-      key: formData.data.length,
-      name: `${values.prefix} ${values.fname} ${values.lname}`,
-      gender: values.gender,
-      code: values.code,
-      tel: values.tel,
-      nationality: values.nationality,
-      idcard: `${values.idcard1}${values.idcard2}${values.idcard3}${values.idcard4}${values.idcard}`,
-      salary: values.salary,
-      date: values.date.$d,
-      passport: values.passport,
-    });
+    dispatch(
+      addForm({
+        key:
+          formData.data.length > 0
+            ? formData.data[formData.data.length - 1].key + 1
+            : 0,
+        name: `${values.prefix} ${values.fname} ${values.lname}`,
+        gender: values.gender,
+        code: values.code,
+        tel: values.tel,
+        nationality: values.nationality,
+        idcard: `${values.idcard1}${values.idcard2}${values.idcard3}${values.idcard4}${values.idcard}`,
+        salary: values.salary,
+        date: values.date.$d.toLocaleString(),
+        passport: values.passport,
+      })
+    );
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -41,68 +49,72 @@ const Form_data = () => {
     >
       <div>
         <Form.Item
-          label="คำนำหน้า"
+          label={t("form.prefix")}
           name="prefix"
-          rules={[{ required: true, message: "กรุณาใส่คำนำหน้า !" }]}
+          rules={[{ required: true, message: t("validate.prefix") }]}
         >
           <Select
             style={{ width: 100, margin: "10px" }}
             options={[
-              { value: "นาย", label: "นาย" },
-              { value: "นาง", label: "นาง" },
-              { value: "นางสาว", label: "นางสาว" },
+              { value: "นาย", label: t("form.mr") },
+              { value: "นาง", label: t("form.mrs") },
+              { value: "นางสาว", label: t("form.ms") },
             ]}
-            placeholder="คำนำหน้า"
+            placeholder={t("form.prefix")}
           />
         </Form.Item>
         <Form.Item
-          label="ชื่อจริง"
+          label={t("form.fname")}
           name="fname"
-          rules={[{ required: true, message: "กรุณาใส่ชื่อจริง !" }]}
+          rules={[{ required: true, message: t("validate.fname") }]}
         >
           <Input style={{ width: 250, margin: "10px" }} />
         </Form.Item>
         <Form.Item
-          label="นามสกุล"
+          label={t("form.lname")}
           name="lname"
-          rules={[{ required: true, message: "กรุณาใส่นามสกุล !" }]}
+          rules={[{ required: true, message: t("validate.lname") }]}
         >
           <Input style={{ width: 250, margin: "10px" }} />
         </Form.Item>
       </div>
       <div>
         <Form.Item
-          label="วันเกิด"
+          label={t("form.date")}
           name="date"
-          rules={[{ required: true, message: "กรุณาใส่วันเกิด !" }]}
+          rules={[{ required: true, message: t("validate.lname") }]}
         >
-          <DatePicker style={{ margin: "10px" }} />
+          <DatePicker
+            style={{ margin: "10px" }}
+            placeholder={t("form.dateformat")}
+            format="MM/DD/YYYY"
+          />
         </Form.Item>
         <Form.Item
-          label="สัญชาติ"
+          label={t("form.nationality")}
           name="nationality"
-          rules={[{ required: true, message: "กรุณาใส่วันเกิด !" }]}
+          rules={[{ required: true, message: t("validate.nationality") }]}
         >
           <Select
             style={{ width: 300, margin: "10px" }}
             options={[
-              { value: "ไทย", label: "ไทย" },
-              { value: "จีน", label: "จีน" },
-              { value: "อังกฤษ", label: "อังกฤษ" },
+              { value: "ไทย", label: t("form.th") },
+              { value: "จีน", label: t("form.Chinese") },
+              { value: "อังกฤษ", label: t("form.English") },
             ]}
-            placeholder="-- กรุณาเลือก --"
+            placeholder={`-- ${t("form.select")} --`}
           />
         </Form.Item>
       </div>
       <div>
         <Form.Item
-          label="เลขบัตรประชาชน"
+          label={t("form.idcard")}
           name="idcard1"
           rules={[
             {
               required: true,
               len: 1,
-              message: "กรุณาใส่ให้ครบ 1 ตัว !",
+              message: t("validate.idcard1"),
             },
           ]}
         >
@@ -122,7 +134,7 @@ const Form_data = () => {
             {
               required: true,
               len: 4,
-              message: "กรุณาใส่ให้ครบ 4 ตัว !",
+              message: t("validate.idcard4"),
             },
           ]}
         >
@@ -142,7 +154,7 @@ const Form_data = () => {
             {
               required: true,
               len: 5,
-              message: "กรุณาใส่ให้ครบ 5 ตัว !",
+              message: t("validate.idcard5"),
             },
           ]}
         >
@@ -162,7 +174,7 @@ const Form_data = () => {
             {
               required: true,
               len: 2,
-              message: "กรุณาใส่ให้ครบ 2 ตัว !",
+              message: t("validate.idcard2"),
             },
           ]}
         >
@@ -182,7 +194,7 @@ const Form_data = () => {
             {
               required: true,
               len: 1,
-              message: "กรุณาใส่เลขบัตรประชาชนในช่องนี้ให้ครบ 1 ตัว !",
+              message: t("validate.idcard1"),
             },
           ]}
         >
@@ -198,24 +210,22 @@ const Form_data = () => {
       </div>
       <div>
         <Form.Item
-          label="เพศ"
+          label={t("form.gender")}
           name="gender"
-          rules={[{ required: true, message: "กรุณาเลือกเพศ !" }]}
+          rules={[{ required: true, message: t("validate.gender") }]}
         >
           <Radio.Group style={{ margin: "10px" }}>
-            <Radio value={"ชาย"}>ชาย</Radio>
-            <Radio value={"หญิง"}>หญิง</Radio>
-            <Radio value={"ไม่ระบุ"}>ไม่ระบุ</Radio>
+            <Radio value={"ชาย"}>{t("form.male")}</Radio>
+            <Radio value={"หญิง"}>{t("form.female")}</Radio>
+            <Radio value={"ไม่ระบุ"}>{t("form.not_specified")}</Radio>
           </Radio.Group>
         </Form.Item>
       </div>
       <div>
         <Form.Item
-          label="หมายเลขโทรศัพท์มือถือ"
+          label={t("form.tel")}
           name="code"
-          rules={[
-            { required: true, message: "กรุณาใส่รหัสหมายเลขโทรศัพท์มือถือ !" },
-          ]}
+          rules={[{ required: true, message: t("validate.code") }]}
         >
           <Select
             style={{ width: 80, margin: "10px" }}
@@ -225,9 +235,7 @@ const Form_data = () => {
         -
         <Form.Item
           name="tel"
-          rules={[
-            { required: true, message: "กรุณาใส่หมายเลขโทรศัพท์มือถือ !" },
-          ]}
+          rules={[{ required: true, message: t("validate.tel") }]}
         >
           <Input
             style={{ width: 250, margin: "10px" }}
@@ -240,24 +248,24 @@ const Form_data = () => {
         </Form.Item>
       </div>
       <div>
-        <Form.Item label="หนังสือเดินทาง" name="passport">
+        <Form.Item label={t("form.passport")} name="passport">
           <Input style={{ width: 250, margin: "10px" }} />
         </Form.Item>
       </div>
       <div>
         <Form.Item
-          label="เงินเดือนที่คาดหวัง"
+          label={t("form.salary")}
           name="salary"
-          rules={[{ required: true, message: "เงินเดือนที่คาดหวัง !" }]}
+          rules={[{ required: true, message: t("validate.salary") }]}
         >
           <Input style={{ width: 250, margin: "10px" }} />
         </Form.Item>
         <Form.Item>
           <Space>
             <Button htmlType="button" onClick={onReset}>
-              ล้างข้อมูล
+              {t("form.button_reset")}
             </Button>
-            <Button htmlType="submit">ส่งข้อมูล</Button>
+            <Button htmlType="submit">{t("form.button_sent")}</Button>
           </Space>
         </Form.Item>
       </div>

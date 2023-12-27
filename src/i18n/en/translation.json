@@ -13,5 +13,48 @@
   },
   "button": {
     "back": "Back"
+  },
+  "form": {
+    "prefix": "Prefix",
+    "name": "Full name",
+    "fname": "First name",
+    "lname": "Last name",
+    "date": "Birthday",
+    "nationality": "Nationality",
+    "gender": "Gender",
+    "idcard": "ID card",
+    "tel": "Phone",
+    "passport": "Passport",
+    "salary": "Salary",
+    "male": "Male",
+    "female": "Female",
+    "not_specified": "Not Specified",
+    "button_reset": "Reset",
+    "button_sent": "Confirm",
+    "system": "System",
+    "delete": "Delete",
+    "mr": "Mr.",
+    "mrs": "Mrs.",
+    "ms": "Ms.",
+    "th": "Thai",
+    "ch": "Chinese",
+    "en": "English",
+    "select": "Please Select",
+    "dateformat": "month/day/year"
+  },
+  "validate": {
+    "prefix": "Please enter prefix !",
+    "fname": "Please enter first name !",
+    "lname": "Please enter last name !",
+    "date": "Please enter birthday !",
+    "nationality": "Please enter nationality !",
+    "idcard1": "Please enter 1 character !",
+    "idcard2": "Please enter 2 character !",
+    "idcard4": "Please enter 4 character !",
+    "idcard5": "Please enter 5 character !",
+    "gender": "Please enter Gender !",
+    "code": "Please enter !",
+    "tel": "Please enter Phone !",
+    "salary": "Please enter Salary !"
   }
 }

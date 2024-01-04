@@ -30,17 +30,25 @@ const formSlice = createSlice({
       state.data.push(action.payload);
       localStorage.setItem("dataTable", JSON.stringify(state.data));
     },
-    removeForm: (state: TableType, action: PayloadAction<number>) => {
-      state.data = state.data.filter((item) => item.key !== action.payload);
+    removeForm: (state: TableType, action: PayloadAction<number[]>) => {
+      state.data = state.data.filter(
+        (item) => !action.payload.includes(item.key)
+      );
       localStorage.setItem("dataTable", JSON.stringify(state.data));
     },
     localCheck: (state: TableType, action: PayloadAction<DataType[]>) => {
-      console.log(action.payload);
       state.data = action.payload;
+    },
+    updateForm: (state: TableType, action: PayloadAction<DataType>) => {
+      const updatedData = state.data.map((item) =>
+        item.key === action.payload.key ? action.payload : item
+      );
+      state.data = updatedData;
+      localStorage.setItem("dataTable", JSON.stringify(state.data));
     },
   },
 });
 
-export const { addForm, removeForm, localCheck } = formSlice.actions;
+export const { addForm, removeForm, localCheck, updateForm } = formSlice.actions;
 export const formSelector = (store: RootState) => store.formSlice;
 export default formSlice.reducer;
